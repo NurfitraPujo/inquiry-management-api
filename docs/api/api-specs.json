@@ -1,0 +1,448 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Inquiry Management Api",
+    "description" : "This is simple API to implement Inquiry management feature in your website",
+    "contact" : {
+      "email" : "fitrapujo@gmail.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/NurfitraPujo/contact-us-api/1.0.0",
+    "description" : "Swagger Virtual Api"
+  }, {
+    "url" : "https://contact-us.example.com/v1",
+    "description" : "Production api"
+  } ],
+  "tags" : [ {
+    "name" : "public",
+    "description" : "API available to public"
+  }, {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  } ],
+  "paths" : {
+    "/inquiries" : {
+      "get" : {
+        "tags" : [ "admins" ],
+        "summary" : "fetch all inquiries data",
+        "description" : "By passing approriate query params, you can searh for inquiries and implement pagination\n",
+        "operationId" : "getInquiries",
+        "parameters" : [ {
+          "name" : "search",
+          "in" : "query",
+          "description" : "pass an optional search string for looking up inquiries",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "filter",
+          "in" : "query",
+          "description" : "pass an optional filter string for looking up inquiries",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pass a page for pagination",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "pass a limit for the number of inquiries returned",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "inquiries data",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "public" ],
+        "summary" : "send new inquiry",
+        "description" : "Send new inquiry\n",
+        "operationId" : "addNewInquiry",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Inquiry"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "inquiry created"
+          },
+          "400" : {
+            "description" : "inquiry data is invalid",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inquiries/{inquiryId}" : {
+      "get" : {
+        "tags" : [ "admins" ],
+        "summary" : "get inquiry details",
+        "description" : "Get details of inquiry where id is {id}\n",
+        "operationId" : "getInquiryDetails",
+        "parameters" : [ {
+          "name" : "inquiryId",
+          "in" : "path",
+          "description" : "The id of Inquiry requested",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "inquiry details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "admins" ],
+        "summary" : "update inquiry data",
+        "description" : "Update inquiry data with id of {id}\n",
+        "operationId" : "updateInquiry",
+        "parameters" : [ {
+          "name" : "inquiryId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Updated inquiry data",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inquiries/{inquiryId}/logs" : {
+      "get" : {
+        "tags" : [ "admins" ],
+        "summary" : "get inquiry logs",
+        "description" : "get inquiry logs of inquiry with id equal to {inquiryId}",
+        "operationId" : "getInquiryLogs",
+        "parameters" : [ {
+          "name" : "inquiryId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of inquiry log",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "add new log",
+        "description" : "add new log to inquiry with id equal to {inquiryId}",
+        "operationId" : "newInquiryLog",
+        "parameters" : [ {
+          "name" : "inquiryId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Log created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Inquiry" : {
+        "required" : [ "id", "inquirer", "issue", "topic" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          },
+          "inquirer" : {
+            "$ref" : "#/components/schemas/Inquirer"
+          },
+          "topic" : {
+            "type" : "string",
+            "example" : "registration"
+          },
+          "issue" : {
+            "type" : "string",
+            "example" : "This is an example of the issue"
+          },
+          "completed" : {
+            "type" : "boolean"
+          },
+          "logs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InquiryLog"
+            }
+          }
+        }
+      },
+      "InquiryLog" : {
+        "required" : [ "evidence", "id", "inquiryId", "status" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          },
+          "inquiryId" : {
+            "type" : "string",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/InquiryStatus"
+          },
+          "evidence" : {
+            "type" : "string",
+            "description" : "Each log must have evidence be it a link to tools used or image\n",
+            "format" : "uri"
+          }
+        }
+      },
+      "InquiryStatus" : {
+        "type" : "string",
+        "enum" : [ "CREATED", "REPLIED", "ON_PROGRESS", "COMPLETED", "CANCELLED" ]
+      },
+      "Inquirer" : {
+        "required" : [ "email", "fullname", "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+          },
+          "firstname" : {
+            "type" : "string",
+            "example" : "John"
+          },
+          "lastname" : {
+            "type" : "string",
+            "example" : "Doe"
+          },
+          "fullname" : {
+            "type" : "string",
+            "example" : "John Doe"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "example" : "johndoe@email.com"
+          },
+          "phone" : {
+            "type" : "string",
+            "example" : "(+62) 84712341111"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/Address"
+          }
+        }
+      },
+      "Address" : {
+        "required" : [ "city", "country", "state", "street" ],
+        "type" : "object",
+        "properties" : {
+          "street" : {
+            "type" : "string",
+            "example" : "Jendral Subroto / 34"
+          },
+          "city" : {
+            "type" : "string",
+            "example" : "Jakarta"
+          },
+          "state" : {
+            "type" : "string",
+            "example" : "Jakarta"
+          },
+          "country" : {
+            "type" : "string",
+            "example" : "Indonesia"
+          },
+          "postal_code" : {
+            "type" : "string",
+            "example" : "20133"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "GetInquiries"
+          },
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Inquiry"
+            }
+          }
+        }
+      },
+      "inline_response_400" : {
+        "type" : "object",
+        "properties" : {
+          "validationErrors" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "example" : "[\"email is not provided\"]"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Your inquiry is invalid"
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "GetInquiryWithId"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/Inquiry"
+          }
+        }
+      },
+      "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "Inquiry updated"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/Inquiry"
+          }
+        }
+      },
+      "inline_response_200_3" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "Get inquiry logs"
+          },
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InquiryLog"
+            }
+          }
+        }
+      },
+      "inline_response_201" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "log created"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/InquiryLog"
+          }
+        }
+      }
+    }
+  }
+}
