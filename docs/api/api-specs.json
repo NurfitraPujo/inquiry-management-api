@@ -13,6 +13,9 @@
     "version" : "1.0.1"
   },
   "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/NurfitraPujo/inquiry-management-api/1.0.1",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
     "url" : "https://virtserver.swaggerhub.com/NurfitraPujo/contact-us-api/1.0.1",
     "description" : "Swagger Virtual Api"
   }, {
@@ -247,11 +250,6 @@
         "required" : [ "id", "inquirer", "issue", "topic" ],
         "type" : "object",
         "properties" : {
-          "inquiryId" : {
-            "type" : "string",
-            "format" : "uuid",
-            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
-          },
           "inquirer" : {
             "$ref" : "#/components/schemas/Inquirer"
           },
@@ -275,16 +273,12 @@
         }
       },
       "InquiryLog" : {
-        "required" : [ "evidence", "inquiryId", "logId", "status" ],
+        "required" : [ "evidence", "inquiryId", "status" ],
         "type" : "object",
         "properties" : {
-          "logId" : {
-            "type" : "string",
-            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
-          },
           "inquiryId" : {
-            "type" : "string",
-            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
+            "type" : "number",
+            "example" : 12134
           },
           "status" : {
             "$ref" : "#/components/schemas/InquiryStatus"
@@ -301,14 +295,9 @@
         "enum" : [ "CREATED", "REPLIED", "ON_PROGRESS", "COMPLETED", "CANCELLED" ]
       },
       "Inquirer" : {
-        "required" : [ "email", "fullname", "inquirer_id" ],
+        "required" : [ "email", "fullname" ],
         "type" : "object",
         "properties" : {
-          "inquirer_id" : {
-            "type" : "string",
-            "format" : "uuid",
-            "example" : "e180f74a-96ed-4283-8bf6-8fec2dda0145"
-          },
           "firstname" : {
             "type" : "string",
             "example" : "John"
